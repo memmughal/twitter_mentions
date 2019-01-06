@@ -8,7 +8,7 @@ defmodule TwitterMentions.TwitterClient.Twitter do
     try do
       check_twitter_auth_credentials()
 
-      ExTwitter.search(screen_name, count: 2)
+      {:ok, ExTwitter.search(screen_name)}
     rescue
       ExTwitter.RateLimitExceededError ->
         Logger.error("Rate limit exceeded, please try again later")

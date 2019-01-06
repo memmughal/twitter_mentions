@@ -8,6 +8,8 @@ defmodule TwitterMentions do
   alias TwitterMentions.Repo
   alias TwitterMentions.Schemas.Mentions
 
+  @twitter_client Application.get_env(:twitter_mentions, :twitter_client)
+
   @doc """
     Fetches twitter mention data and saves it in the `TwitterMentions.Schemas.Mentions`.
     # Requires
@@ -31,18 +33,18 @@ defmodule TwitterMentions do
     it will respond with tweets before this date
   """
   def fetch do
-    mentions =
-      [screen_name: get_screen_name()]
-      |> TwitterMentions.TwitterClient.Twitter.get_mentions!()
-      |> map_mentions()
-
-    Repo.insert_all(Mentions, mentions, on_conflict: :nothing)
+    with {:ok, mentions} <- @twitter_client.get_mentions!(screen_name: get_screen_name()),
+         {:ok, formatted_mentions} <- map_mentions(mentions) do
+      Repo.insert_all(Mentions, formatted_mentions, on_conflict: :nothing)
+    end
   end
 
   defp get_screen_name, do: Application.fetch_env!(:twitter_mentions, :screen_name)
 
   defp map_mentions([]), do: {:error, :no_tweets_found}
-  defp map_mentions(mentions) when is_list(mentions), do: Enum.map(mentions, &format_mention/1)
+
+  defp map_mentions(mentions) when is_list(mentions),
+    do: {:ok, Enum.map(mentions, &format_mention/1)}
 
   defp format_mention(%ExTwitter.Model.Tweet{} = tweet) do
     %{
