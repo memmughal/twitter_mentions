@@ -27,6 +27,18 @@ defmodule TwitterMentions do
 
       iex> TwitterMentions.fetch()
       {n, nil}  `where n is the number of new records fetched`
+
+    ## Getting historic data
+
+    standard public twitter api only provides data for the last 7 days, if historic
+    data is required, premium/enyerprise account needs to be set up
+
+    standard search api returns results with default limit of 15 and
+    can be set to 100 with
+                   ExTwitter.search(search_term, count: 100)
+
+    search can be provided with options of date i.e. `until: 2018-12-31`
+    it will respond with tweets before this date
   """
   def fetch do
     try do
