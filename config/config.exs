@@ -12,12 +12,12 @@ config :twitter_mentions, TwitterMentions.Repo,
   port: "5432"
 
 config :extwitter, :oauth,
-  consumer_key: "",
-  consumer_secret: "",
-  access_token: "",
-  access_token_secret: ""
+  consumer_key: System.get_env("CONSUMER_KEY"),
+  consumer_secret: System.get_env("CONSUMER_SECRET"),
+  access_token: System.get_env("ACCESS_TOKEN"),
+  access_token_secret: System.get_env("ACCESS_TOKEN_SECRET")
 
-config :twitter_mentions, screen_name: "@josevalim"
+config :twitter_mentions, screen_name: System.get_env("SCREEN_NAME")
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
 # file won't be loaded nor affect the parent project. For this reason,
