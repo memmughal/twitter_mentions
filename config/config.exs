@@ -2,11 +2,20 @@
 # and its dependencies with the aid of the Mix.Config module.
 use Mix.Config
 
+config :twitter_mentions, ecto_repos: [TwitterMentions.Repo]
+
+config :twitter_mentions, TwitterMentions.Repo,
+  database: "twitter_mentions_dev",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  port: "5432"
+
 config :extwitter, :oauth,
-  consumer_key: "OQwQbSuyY3LKs0RcICVMhHg35",
-  consumer_secret: "ZwRwXjCr9fCP3GteeBLI92zdCzw41wXKo9jhWxp6T4D6vTWZB6",
-  access_token: "2265168632-CdyrBa5Lghx9jZ7jytpVMz42SEZAnqYqOz7iD3r",
-  access_token_secret: "ZUqiqRcG8kXWJ4GhCVFjfbzbzx8WQ2gffLoIrZ8HKO790"
+  consumer_key: "",
+  consumer_secret: "",
+  access_token: "",
+  access_token_secret: ""
 
 config :twitter_mentions, screen_name: "@josevalim"
 # This configuration is loaded before any dependency and is restricted

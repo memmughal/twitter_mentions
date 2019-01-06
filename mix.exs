@@ -21,6 +21,8 @@ defmodule TwitterMentions.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:ecto_sql, "~> 3.0"},
+      {:postgrex, ">= 0.0.0"},
       {:oauther, "~> 1.1"},
       {:extwitter, "~> 0.8"}
     ]
