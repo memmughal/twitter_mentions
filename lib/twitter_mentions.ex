@@ -1,6 +1,6 @@
 defmodule TwitterMentions do
   @moduledoc """
-  Documentation for TwitterMentions.
+  Provides helper methods to fetch and save twitter mentions data.
   """
 
   require Logger
@@ -18,6 +18,16 @@ defmodule TwitterMentions do
     :world
   end
 
+  @doc """
+    Fetches twitter mention data and saves it in the `TwitterMentions.Schemas.Mentions`.
+    # Requires
+    - `screen_name`: to be set in the application configuration
+
+    ## Examples
+
+      iex> TwitterMentions.fetch()
+      {n, nil}  `where n is the number of new records fetched`
+  """
   def fetch do
     try do
       check_twitter_auth_credentials()
@@ -68,4 +78,6 @@ defmodule TwitterMentions do
   defp raise_if_invalid!(nil, key), do: raise("expects #{key} to be configured for extwitter")
   defp raise_if_invalid!("", key), do: raise("expects #{key} to be configured for extwitter")
   defp raise_if_invalid!(value, _key), do: value
+
+  def get_all, do: TwitterMentions.Repo.all(Mentions)
 end
