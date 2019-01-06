@@ -5,18 +5,8 @@ defmodule TwitterMentions do
 
   require Logger
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> TwitterMentions.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
+  alias TwitterMentions.Repo
+  alias TwitterMentions.Schemas.Mentions
 
   @doc """
     Fetches twitter mention data and saves it in the `TwitterMentions.Schemas.Mentions`.
@@ -49,9 +39,7 @@ defmodule TwitterMentions do
         |> ExTwitter.search(count: 2)
         |> map_mentions()
 
-      TwitterMentions.Repo.insert_all(TwitterMentions.Schemas.Mentions, mentions,
-        on_conflict: :nothing
-      )
+      Repo.insert_all(Mentions, mentions, on_conflict: :nothing)
     rescue
       ExTwitter.RateLimitExceededError ->
         Logger.error("Rate limit exceeded, please try again later")
