@@ -23,13 +23,15 @@ defmodule TwitterMentions do
       name = Application.get_env(:twitter_mentions, :screen_name) || "@chris_mccord"
 
       with [%ExTwitter.Model.Tweet{} = tweet] = ExTwitter.search(name, count: 1) do
-        %{
+        mention_data = %{
           mention_screen_name: name,
           author_name: tweet.retweeted_status.user.screen_name,
           text: tweet.text,
           tweet_creation_date: tweet.retweeted_status.created_at,
           number_of_retweets: tweet.retweet_count
         }
+
+        TwitterMentions.Schemas.Mentions.insert(mention_data)
       end
     rescue
       ExTwitter.RateLimitExceededError ->
