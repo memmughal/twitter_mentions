@@ -25,6 +25,7 @@ do
         "init")
             echo "Initializing"
             mix deps.get
+            mix do ecto.drop
             mix do ecto.create
             ;;
 
