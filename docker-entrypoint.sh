@@ -5,7 +5,7 @@ set -e
 for var in "${@}"
 do
     case "${var}" in
-        start|init|migrate|test|bash)
+        init|migrate|test|bash)
             ;;
         *)
             printf "Unknown option: %s\n" "${var}" >&2
@@ -17,10 +17,6 @@ done
 for var in "$@"
 do
     case "$var" in
-
-        "start")
-            echo "Starting"
-            ;;
 
         "init")
             echo "Initializing"
