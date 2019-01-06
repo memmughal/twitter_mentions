@@ -20,6 +20,8 @@ defmodule TwitterMentions do
 
   def fetch do
     try do
+      get_twitter_authentication_data()
+
       mentions =
         get_screen_name()
         |> ExTwitter.search(count: 2)
@@ -48,4 +50,29 @@ defmodule TwitterMentions do
   end
 
   defp get_screen_name, do: Application.fetch_env!(:twitter_mentions, :screen_name)
+
+  def get_twitter_authentication_data do
+    :extwitter
+    |> Application.fetch_env!(:oauth)
+    |> Keyword.get(:consumer_key)
+    |> raise_if_nil(:consumer_key)
+
+    :extwitter
+    |> Application.fetch_env!(:oauth)
+    |> Keyword.get(:consumer_secret)
+    |> raise_if_nil(:consumer_secret)
+
+    :extwitter
+    |> Application.fetch_env!(:oauth)
+    |> Keyword.get(:access_token)
+    |> raise_if_nil(:access_token)
+
+    :extwitter
+    |> Application.fetch_env!(:oauth)
+    |> Keyword.get(:access_token_secret)
+    |> raise_if_nil(:access_token_secret)
+  end
+
+  defp raise_if_nil(nil, key), do: raise("expects #{key} to be configured for extwitter")
+  defp raise_if_nil(value, _key), do: value
 end
