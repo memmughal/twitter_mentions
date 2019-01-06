@@ -5,10 +5,10 @@ use Mix.Config
 config :twitter_mentions, ecto_repos: [TwitterMentions.Repo]
 
 config :twitter_mentions, TwitterMentions.Repo,
-  database: "twitter_mentions_dev",
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
+  database: System.get_env("POSTGRES_DATABASE"),
+  username: System.get_env("POSTGRES_USERNAME"),
+  password: System.get_env("POSTGRES_PASSWORD"),
+  hostname: System.get_env("POSTGRES_HOSTNAME"),
   port: "5432"
 
 config :extwitter, :oauth,
