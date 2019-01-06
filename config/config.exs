@@ -8,6 +8,7 @@ config :extwitter, :oauth,
   access_token: "2265168632-CdyrBa5Lghx9jZ7jytpVMz42SEZAnqYqOz7iD3r",
   access_token_secret: "ZUqiqRcG8kXWJ4GhCVFjfbzbzx8WQ2gffLoIrZ8HKO790"
 
+config :twitter_mentions, screen_name: "@josevalim"
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
 # file won't be loaded nor affect the parent project. For this reason,
