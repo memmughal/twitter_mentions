@@ -43,6 +43,15 @@ defmodule TwitterMentions do
     rescue
       ExTwitter.RateLimitExceededError ->
         Logger.error("Rate limit exceeded, please try again later")
+        {:error, :rate_limit_exceeded}
+
+      ExTwitter.Error ->
+        Logger.error("Please check twitter auth credentials in the config")
+        {:error, :twitter_error}
+
+      error ->
+        Logger.error("Some error occurred #{inspect(error)}")
+        error
     end
   end
 
