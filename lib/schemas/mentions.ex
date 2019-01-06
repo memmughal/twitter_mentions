@@ -3,6 +3,7 @@ defmodule TwitterMentions.Schemas.Mentions do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "mentions" do
+    field(:twitter_id, :string)
     field(:mention_screen_name, :string)
     field(:author_name, :string)
     field(:text, :string)

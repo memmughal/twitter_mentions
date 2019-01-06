@@ -4,6 +4,7 @@ defmodule TwitterMentions.Repo.Migrations.AddMentionsTable do
   def change do
     create table(:mentions, primary_key: false) do
       add(:id, :uuid, primary_key: true)
+      add(:twitter_id, :string)
       add(:mention_screen_name, :string)
       add(:author_name, :string)
       add(:text, :string)
@@ -12,5 +13,7 @@ defmodule TwitterMentions.Repo.Migrations.AddMentionsTable do
 
       timestamps()
     end
+
+    create(unique_index(:mentions, [:twitter_id]))
   end
 end
