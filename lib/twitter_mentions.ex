@@ -37,7 +37,9 @@ defmodule TwitterMentions do
         |> ExTwitter.search(count: 2)
         |> map_mentions()
 
-      TwitterMentions.Repo.insert_all(TwitterMentions.Schemas.Mentions, mentions)
+      TwitterMentions.Repo.insert_all(TwitterMentions.Schemas.Mentions, mentions,
+        on_conflict: :nothing
+      )
     rescue
       ExTwitter.RateLimitExceededError ->
         Logger.error("Rate limit exceeded, please try again later")
@@ -49,9 +51,10 @@ defmodule TwitterMentions do
 
   defp format_mention(%ExTwitter.Model.Tweet{} = tweet) do
     %{
+      twitter_id: tweet.id_str,
       mention_screen_name: get_screen_name(),
       author_name: tweet.retweeted_status.user.screen_name,
-      text: tweet.text,
+      text: tweet.retweeted_status.text,
       tweet_creation_date: tweet.retweeted_status.created_at,
       number_of_retweets: tweet.retweet_count,
       inserted_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second),
